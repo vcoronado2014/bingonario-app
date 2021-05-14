@@ -1,0 +1,364 @@
+<app-header-app></app-header-app>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+  <div class="container">
+      <div class="row pt-3" [hidden]="isMobile">
+        <div class="col-md-8">
+          <h1>Mis Sorteos</h1>
+          <p class="subtitulo-sorteos">En esta sección podrás ver tus sorteos creados.</p>
+        </div>
+        <div class="col-md-4 text-right">
+          <button type="button" class="btn btn-outline-dark btn-lg btn-block" (click)="editarSorteo(0)">Nuevo</button>
+        </div>
+      </div>
+      <!-- INFOGRAFIA -->
+      <div class="card mt-2 dark" [hidden]="!isMobile">
+        <div class="card-body row">
+          <div class="col-4 col-sm-2">
+            <a mat-icon-button aria-label="edit" color="accent">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <label>Editar</label>
+          </div>
+          <div class="col-4 col-sm-2">
+            <a mat-icon-button aria-label="edit" color="warn">
+              <mat-icon>close</mat-icon>
+            </a>
+            <label>Cerrar</label>
+          </div>
+          <div class="col-4 col-sm-2">
+            <a mat-icon-button aria-label="edit">
+              <mat-icon>info</mat-icon>
+            </a>
+            <label>Información</label>
+          </div>
+          <div class="col-4 col-sm-2">
+            <a mat-icon-button aria-label="edit">
+              <mat-icon>library_add</mat-icon>
+            </a>
+            <label>Agregar cortesía</label>
+          </div>
+          <div class="col-4 col-sm-2">
+            <a mat-icon-button aria-label="edit">
+              <mat-icon>view_list</mat-icon>
+            </a>
+            <label>Ver cartones</label>
+          </div>
+          <div class="col-4 col-sm-2">
+            <a mat-icon-button aria-label="anular">
+              <mat-icon>power_off</mat-icon>
+            </a>
+            <label>Anular sorteo</label>
+          </div>
+          <div class="col-4 col-sm-2">
+            <a mat-icon-button aria-label="anular">
+              <mat-icon>list_alt</mat-icon>
+            </a>
+            <label>Cartones anulados</label>
+          </div>
+        </div>
+      </div>
+      <!-- ESTO ES CON GRILLA PERO LO COMENTAMOS YA QUE USAMOS UNA LISTA MAS ELEGANTE -->
+      <!--
+      <div class="grid grid-table pt-2" style="padding: 20px;" [hidden]="isMobile">
+        <div class="mat-elevation-z8">
+          <mat-form-field class="dark">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+          </mat-form-field>
+          <table mat-table [dataSource]="dataSource">
+
+            <ng-container matColumnDef="Numero">
+              <th mat-header-cell *matHeaderCellDef> No. Sorteo </th>
+              <td mat-cell *matCellDef="let element"> {{element.Numero}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="FechaInicio">
+              <th mat-header-cell *matHeaderCellDef> Fecha Inicio </th>
+              <td mat-cell *matCellDef="let element"> <i class="fas fa-clock fa-sm">
+                </i>&nbsp;{{ element.FechaInicio | date:"dd/MM/yyyy"}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="FechaHoraSorteo">
+              <th mat-header-cell *matHeaderCellDef> Fecha </th>
+              <td mat-cell *matCellDef="let element"><i class="fas fa-calendar fa-sm">
+                </i>&nbsp;{{ element.FechaHoraSorteo | verificadorFecha | capitalizar }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Hora">
+              <th mat-header-cell *matHeaderCellDef> Hora </th>
+              <td mat-cell *matCellDef="let element"><i class="fas fa-clock fa-sm">
+                </i>&nbsp;{{ element.FechaHoraSorteo | transformaHora }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Codigo">
+              <th mat-header-cell *matHeaderCellDef> Código </th>
+              <td mat-cell *matCellDef="let element"> {{ element.Codigo }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Editar">
+              <th mat-header-cell *matHeaderCellDef> </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button aria-label="edit" (click)="editarSorteo(element.Id)" color="accent">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Desactivar">
+              <th mat-header-cell *matHeaderCellDef> </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button aria-label="desactivar" (click)="desactivarSorteo(element.Id)" color="warn">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="TieneCartones">
+              <th mat-header-cell *matHeaderCellDef> </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button aria-label="info" [hidden]="element.TieneCartones == 0" data-toggle="modal"
+                  data-target="#exampleModalCenter1" (click)="mostrarCartones(element)">
+                  <mat-icon>info</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Cortesias">
+              <th mat-header-cell *matHeaderCellDef class="text-center"></th>
+              <td mat-cell *matCellDef="let element">
+                <button data-toggle="tooltip" data-placement="top" title="Crear cortesía" (click)="comprarCortesias(element)"
+                  mat-icon-button aria-label="cortesia" [hidden]="element.TieneCartones == 0">
+                  <mat-icon>library_add</mat-icon>
+                </button>
+                <button mat-icon-button aria-label="cortesia" [hidden]="element.TieneCartones == 0"
+                  (click)="listarCartones(element)">
+                  <mat-icon>view_list</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+-->
+
+    <!-- FILTRADO DE LA INFORMACION -->
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon4" [(ngModel)]="term">
+      <div class="input-group-append" id="button-addon4">
+        <button class="btn btn-secondary" type="button" (click)="buscar()">Buscar</button>
+        <button class="btn btn-outline-secondary" type="button" (click)="limpiar()">Limpiar</button>
+      </div>
+    </div>
+    <!-- NUEVA LISTA DE SORTEOS [dataSource]="dataSource" -->
+    <div class="card mt-2 dark" *ngFor="let sorteo of collection.data | paginate: config" [hidden]="isMobile">
+      <!-- body -->
+      <div class="card-body">
+        <div class="row pb-4">
+          <div class="col-12 col-sm-2 header-list">Afiche</div>
+    
+          <div class="col-3 col-sm-1 header-list">Numero</div>
+    
+          <div class="col-9 col-sm-3 header-list">Fecha</div>
+    
+          <div class="col-2 col-sm-1 header-list">Hora</div>
+    
+          <div class="col-3 col-sm-2 header-list">Código</div>
+    
+          <div class="col-6 col-sm-3 header-list">Inicio</div>
+    
+    
+          <div class="col-12 col-sm-2 item-row"><img [src]="sorteo.Banner" alt="afiche" height="30px"></div>
+          <div class="col-3 col-sm-1 item-row">{{sorteo.Numero}}</div>
+          <div class="col-9 col-sm-3 item-row">{{ sorteo.FechaHoraSorteo | verificadorFecha | capitalizar }}</div>
+          <div class="col-2 col-sm-1 item-row">{{ sorteo.FechaHoraSorteo | transformaHora }}</div>
+          <div class="col-3 col-sm-2 item-row">{{sorteo.Codigo }}</div>
+          <div class="col-6 col-sm-3 item-row">{{ sorteo.FechaInicio | date:"dd/MM/yyyy" }}</div>
+        </div>
+        <!-- div opciones -->
+        <div class="row opciones-sorteo">
+          <div class="col-12" [hidden]="sorteo.EsAnulado == 0">
+            <div class="alert alert-info" role="alert">
+              Este sorteo se encuentra anulado!!
+            </div>
+          </div>
+          <div class="col-12">
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip>{{sorteo.CartonesDisponibles}} Disponibles</mat-chip>
+              <mat-chip>{{sorteo.CartonesUsados}} Usados</mat-chip>
+              <mat-chip>{{sorteo.CartonesPagados}} Pagados</mat-chip>
+              <mat-chip>{{sorteo.CartonesCortesia}} Cortesías</mat-chip>
+              <mat-chip color="accent" selected>{{sorteo.ValorSorteo | currency : 'CLP' :'symbol-narrow':'3.0' | currencyFormat}}</mat-chip>
+<!--               <mat-chip color="primary" selected>Primary fish</mat-chip>
+              <mat-chip color="accent" selected>Accent fish</mat-chip> -->
+            </mat-chip-list>
+          </div>
+          <div class="col-4">
+            <button mat-icon-button aria-label="edit" (click)="editarSorteo(sorteo.Id)" color="accent">
+              <mat-icon>edit</mat-icon>&nbsp;Edita tu Sorteo
+            </button>
+          </div>
+          <div class="col-4">
+            <button mat-icon-button aria-label="desactivar" (click)="desactivarSorteo(sorteo)">
+              <mat-icon>close</mat-icon>&nbsp;Cierra el Sorteo
+            </button>
+          </div>
+          <div class="col-4">
+            <button mat-icon-button aria-label="info" [hidden]="sorteo.TieneCartones == 0" data-toggle="modal"
+              data-target="#exampleModalCenter1" (click)="mostrarCartones(sorteo)">
+              <mat-icon>info</mat-icon>&nbsp;Información del Sorteo
+            </button>
+          </div>
+          <div class="col-4">
+            <button (click)="comprarCortesias(sorteo)" mat-icon-button aria-label="cortesia"
+              [hidden]="sorteo.TieneCartones == 0">
+              <mat-icon>library_add</mat-icon>&nbsp;Agrega cortesía al Sorteo
+            </button>
+          </div>
+          <div class="col-4">
+            <button mat-icon-button aria-label="cortesia" [hidden]="sorteo.TieneCartones == 0"
+              (click)="listarCartones(sorteo)">
+              <mat-icon>view_list</mat-icon>&nbsp;Ver Cartones
+            </button>
+          </div>
+          <div class="col-4">
+            <button mat-icon-button aria-label="anular" (click)="anularSorteo(sorteo.Id)" [hidden]="sorteo.EsAnulado == 1">
+              <mat-icon>power_off</mat-icon>&nbsp;Anular sorteo
+            </button>
+            <button mat-icon-button aria-label="listaanulados" [hidden]="sorteo.EsAnulado == 0" (click)="listarCartonesAnulados(sorteo)">
+              <mat-icon>list_alt</mat-icon>&nbsp;Ver anulados
+            </button>
+          </div>
+          <div class="col-4">
+            <button mat-icon-button aria-label="detallado" (click)="reporteDetalladoVentas(sorteo.Id)" [hidden]="sorteo.EsAnulado == 1">
+              <mat-icon>list</mat-icon>&nbsp;Reporte Detallado ventas
+            </button>
+          </div>
+        </div>
+    
+      </div>
+    </div>
+    <div class="row pt-2" style="float: right;" [hidden]="isMobile">
+      <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+    </div>
+    
+    
+
+    <!-- LISTA PARA VISTA MOVIL -->
+    <div [hidden]="!isMobile" class="pt-3">
+      <mat-list>
+        <h3 mat-subheader>Sorteos</h3>
+        <mat-divider></mat-divider>
+        <mat-list-item *ngFor="let sorteo of collection.data">
+          <mat-icon mat-list-icon>calendar_today</mat-icon>
+          <h4 mat-line>Nro: {{sorteo.Numero}}</h4>
+          <p mat-line>Inicio: {{ sorteo.FechaInicio | date:"dd/MM/yyyy" }} </p>
+          <p mat-line>Fecha: {{ sorteo.FechaHoraSorteo | verificadorFecha | capitalizar }} </p>
+          <p mat-line>Codigo: {{sorteo.Codigo }} Hora: {{ sorteo.FechaHoraSorteo | transformaHora }} </p>
+          <p mat-line [hidden]="sorteo.EsAnulado == 0" class="alert alert-info" role="alert">
+            Este sorteo se encuentra anulado!!
+          </p>
+ <!--          <p mat-line [hidden]="sorteo.EsAnulado == 0">
+          <div class="alert alert-info" role="alert">
+            Este sorteo se encuentra anulado!!
+          </div>
+          </p> -->
+          <p mat-line class="text-right">
+            <button mat-icon-button aria-label="edit" (click)="editarSorteo(sorteo.Id)" color="accent">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <!-- <button mat-button color="accent" (click)="editarSorteo(sorteo.Id)">Editar</button>  -->
+            <button mat-icon-button aria-label="desactivar" (click)="desactivarSorteo(sorteo)" color="warn">
+              <mat-icon>close</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="anular" (click)="anularSorteo(sorteo.Id)" [hidden]="sorteo.EsAnulado == 1">
+              <mat-icon>power_off</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="listaanulados" [hidden]="sorteo.EsAnulado == 0" (click)="listarCartonesAnulados(sorteo)">
+              <mat-icon>list_alt</mat-icon>
+            </button>
+            <!-- <button mat-button color="warn" (click)="desactivarSorteo(sorteo.Id)">Desactivar</button> -->
+            <button mat-icon-button aria-label="info" [hidden]="sorteo.TieneCartones == 0" data-toggle="modal"
+              data-target="#exampleModalCenter1" (click)="mostrarCartones(sorteo)">
+              <mat-icon>info</mat-icon>
+            </button>
+            <!-- <button [hidden]="sorteo.TieneCartones == 0" mat-stroked-button data-toggle="modal"  data-target="#exampleModalCenter1" (click)="mostrarCartones(sorteo)">Info</button> -->
+            <button (click)="comprarCortesias(sorteo)" mat-icon-button aria-label="cortesia"
+              [hidden]="sorteo.TieneCartones == 0">
+              <mat-icon>library_add</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="cortesia" [hidden]="sorteo.TieneCartones == 0"
+              (click)="listarCartones(sorteo)">
+              <mat-icon>view_list</mat-icon>
+            </button>
+          </p>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+    
+      </mat-list>
+    </div>
+  </div>
+
+  <!-- Modal ver -->
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title" id="exampleModalLongTitle">Información de cartones</h3>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="nombres">Número</label>
+            <label class="form-control">{{sorteoMostrando.Numero}}</label>
+          </div>
+          <div class="form-group col-md-8">
+            <label for="codigo">Código</label>
+            <label class="form-control">{{sorteoMostrando.Codigo}}</label>
+          </div>
+
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-8">
+            <label for="codigo">Fecha Sorteo</label>
+            <label class="form-control">{{ sorteoMostrando.FechaHoraSorteo | verificadorFecha | capitalizar }}</label>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="nombres">Hora</label>
+            <label class="form-control">{{ sorteoMostrando.FechaHoraSorteo | transformaHora }}</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="nombres">Cantidad Cartones</label>
+            <label class="form-control">{{sorteoMostrando.CartonesDisponibles}}</label>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="codigo">Cartones Vendidos</label>
+            <label class="form-control">{{sorteoMostrando.CartonesUsados}}</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="codigo">Valor Cartón</label>
+            <label class="form-control">{{sorteoMostrando.ValorSorteo}}</label>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="codigo">Total Vendido</label>
+            <label class="form-control">{{sorteoMostrando.TotalVendido}}</label>
+          </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+    </div>
+  </div>
+</div>
+</div>

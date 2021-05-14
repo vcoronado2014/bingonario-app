@@ -1,0 +1,155 @@
+<app-header-app></app-header-app>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<div class="container">
+    <!-- FILTRADO DE LA INFORMACION -->
+    <div class="card mt-2 dark">
+      <div class="card-body">
+        <div class="form-inline">
+          <div class="form-group col-md-6 mb-2">
+            <label for="inputSorteo">Tipo&nbsp;&nbsp; </label>
+            <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="tipoSeleccionado"
+              (change)="onChangeTipo($event)" style="width: 85%;">
+              <option value="0">Seleccione</option>
+              <option value="1">Ventas</option>
+              <option value="2">Cortesías</option>
+            </select>
+          </div>
+          <!-- botones de exportación -->
+          <div class="form-group col-md-2 mb-2">
+            <button type="button" (click)="generateExcel()" class="btn btn-warning">Exportar a Excel</button>
+          </div>
+          <div class="form-group col-md-2 mb-2">
+            <button type="button" (click)="generatePdf()" class="btn btn-success">Exportar a PDF</button>
+          </div>
+          <div class="form-group col-md-2 mb-2">
+            <button type="button" data-toggle="modal" data-target="#exampleModalCenter1" class="btn btn-success">Gráficos</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-2" style="padding: 20px;">
+    <div class="mat-elevation-z8">
+<!--       <mat-form-field class="dark">
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field> -->
+
+      <mat-table [dataSource]="dataSource">
+  
+        <ng-container matColumnDef="NombreCompleto">
+          <mat-header-cell *matHeaderCellDef> Nombre Completo </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.NombreCompleto}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Email">
+          <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.Email}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Telefono">
+          <mat-header-cell *matHeaderCellDef> Teléfono </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.Telefono }} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="FechaHoraSorteo">
+          <mat-header-cell *matHeaderCellDef> Fecha Adquisición </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.FechaHoraSorteo }}
+          </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="Valor">
+          <mat-header-cell class="header-align-center" *matHeaderCellDef> Valor </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="header-align-right"> {{element.Valor  | currency : 'CLP' :'symbol-narrow':'3.0' | currencyFormat}} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="Tipo">
+          <mat-header-cell class="header-align-center" *matHeaderCellDef> Tipo </mat-header-cell>
+          <mat-cell class="header-align-center" *matCellDef="let element"> {{element.Tipo}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Opciones">
+          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+          <mat-cell *matCellDef="let element" style="text-align: right;">
+            <button mat-icon-button aria-label="send" [hidden]="element.UrlPdf == '' || element.EsAnulado == 1" (click)="reenviarPdf(element)">
+              <mat-icon>send</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container> 
+
+        <!-- set footer for total amount-->
+        <ng-container matColumnDef="VacioUno">
+          <mat-footer-cell *matFooterCellDef class="bold header-align-right"></mat-footer-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="VacioTres">
+          <mat-footer-cell *matFooterCellDef class="bold header-align-right"></mat-footer-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Total">
+          <mat-footer-cell *matFooterCellDef class="bold header-align-right"></mat-footer-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="VacioDos">
+          <mat-footer-cell *matFooterCellDef class="bold header-align-right">Total</mat-footer-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="totalAmount">
+          <mat-footer-cell *matFooterCellDef class="header-align-right">
+            {{ getTotalCost() | currency : 'CLP' :'symbol-narrow':'3.0' | currencyFormat }}
+          </mat-footer-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="VacioSeis">
+          <mat-footer-cell *matFooterCellDef class="bold header-align-right"></mat-footer-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-footer-row *matFooterRowDef="displayedTotalColumns"></mat-footer-row>
+      </mat-table>
+  
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+
+</div>
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLongTitle">Gráficos</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6 grafico-parent">
+              <legend class="text-center">Cantidad de Ventas</legend>
+              <ngx-charts-pie-chart  [scheme]="colorScheme" [results]="single" [gradient]="gradient" [legendTitle] = "'Información'"
+                [legend]="showLegend" [legendPosition]="legendPosition" [labels]="showLabels" [doughnut]="isDoughnut"
+                (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+              </ngx-charts-pie-chart>
+            </div>
+            <div class="col-md-6">
+              <legend class="text-center">Ventas Últimos 7 días</legend>
+              <ngx-charts-bar-vertical [scheme]="colorSchemeTotal" [results]="singleBarra" [gradient]="gradient" [legendTitle] = "'Información'"
+                [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
+              </ngx-charts-bar-vertical>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>

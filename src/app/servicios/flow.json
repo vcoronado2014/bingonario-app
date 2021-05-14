@@ -1,0 +1,396 @@
+{
+	"info": {
+		"_postman_id": "e1c892ee-c020-4ee5-8266-b377e934d16c",
+		"name": "Flow Payment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "payment/create",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bbd7c58a-11f6-4030-be94-679e5227125b",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f8dc3e22-fc44-48cd-b9d0-86d13672d4d3",
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"Token\", jsonData.token);\r",
+							"pm.environment.set(\"FlowOrder\", jsonData.flowOrder);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "apiKey",
+							"value": "{{apiKey}}",
+							"type": "text"
+						},
+						{
+							"key": "subject",
+							"value": "Pago de prueba POSTMAN",
+							"type": "text"
+						},
+						{
+							"key": "currency",
+							"value": "CLP",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "1000",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "csepulveda@tuxpan.com",
+							"type": "text"
+						},
+						{
+							"key": "commerceOrder",
+							"value": "{{CommerceOrder}}",
+							"type": "text"
+						},
+						{
+							"key": "urlConfirmation",
+							"value": "http://flowosccomerce.tuxpan.com/csepulveda/api2/pay/confirmPay.php",
+							"type": "text"
+						},
+						{
+							"key": "urlReturn",
+							"value": "http://flowosccomerce.tuxpan.com/csepulveda/api2/pay/resultPay.php",
+							"type": "text"
+						},
+						{
+							"key": "s",
+							"value": "{{Signature}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{Hosting}}/api/payment/create",
+					"protocol": "https",
+					"host": [
+						"{{Hosting}}"
+					],
+					"path": [
+						"api",
+						"payment",
+						"create"
+					]
+				},
+				"description": "Crea una transaccion de pago"
+			},
+			"response": []
+		},
+		{
+			"name": "payment/getStatus",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ab6b8573-8337-496f-bf71-847e8ad86b87",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "62d2a75b-060c-4400-a328-2d564b7b78d1",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{Hosting}}/api/payment/getStatus?apiKey={{apiKey}}&token={{Token}}&s={{Signature}}",
+					"protocol": "https",
+					"host": [
+						"{{Hosting}}"
+					],
+					"path": [
+						"api",
+						"payment",
+						"getStatus"
+					],
+					"query": [
+						{
+							"key": "apiKey",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{Token}}"
+						},
+						{
+							"key": "s",
+							"value": "{{Signature}}"
+						}
+					]
+				},
+				"description": "Obtiene el estado de la transacción en base al Token"
+			},
+			"response": []
+		},
+		{
+			"name": "payment/getStatusByCommerceId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7005b639-dc09-4e89-b07f-08799a285261",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1809970f-6a83-4329-b355-71045b87785c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{Hosting}}/api/payment/getStatusByCommerceId?apiKey={{apiKey}}&commerceId=646822&s={{Signature}}",
+					"protocol": "https",
+					"host": [
+						"{{Hosting}}"
+					],
+					"path": [
+						"api",
+						"payment",
+						"getStatusByCommerceId"
+					],
+					"query": [
+						{
+							"key": "apiKey",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "commerceId",
+							"value": "646822"
+						},
+						{
+							"key": "s",
+							"value": "{{Signature}}"
+						}
+					]
+				},
+				"description": "Obtiene el estado de la transacción en base al CommerceOrder"
+			},
+			"response": []
+		},
+		{
+			"name": "payment/getStatusByFlowOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1b7b895f-42d0-496e-a90b-d998c9c79ee8",
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"var schema = pm.environment.get(\"Schema\");\r",
+							"console.log(jsonData);\r",
+							"\r",
+							"//Validate Schema\r",
+							"pm.test('Schema Validation', function() {\r",
+							"    \r",
+							"    var result=tv4.validateResult(JSON.parse(responseBody), schema);\r",
+							" \r",
+							"    if(!result.valid){\r",
+							"        console.log(result);\r",
+							"    }\r",
+							" \r",
+							"    pm.expect(result.valid).to.be.true;\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d3125306-bdc5-4f1e-8dc7-070fa2fc3e0a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{Hosting}}/api/payment/getStatusByFlowOrder?apiKey={{apiKey}}&flowOrder={{FlowOrder}}&s={{Signature}}",
+					"protocol": "https",
+					"host": [
+						"{{Hosting}}"
+					],
+					"path": [
+						"api",
+						"payment",
+						"getStatusByFlowOrder"
+					],
+					"query": [
+						{
+							"key": "apiKey",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "flowOrder",
+							"value": "{{FlowOrder}}"
+						},
+						{
+							"key": "s",
+							"value": "{{Signature}}"
+						}
+					]
+				},
+				"description": "Obtiene el estado de la transacción en base al número de orden Flow"
+			},
+			"response": []
+		},
+		{
+			"name": "payment/getPayments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{Hosting}}/api/payment/getPayments?apiKey={{apiKey}}&date=\"2020-01-21\"&s={{Signature}}",
+					"protocol": "https",
+					"host": [
+						"{{Hosting}}"
+					],
+					"path": [
+						"api",
+						"payment",
+						"getPayments"
+					],
+					"query": [
+						{
+							"key": "apiKey",
+							"value": "{{apiKey}}"
+						},
+						{
+							"key": "date",
+							"value": "\"2020-01-21\""
+						},
+						{
+							"key": "s",
+							"value": "{{Signature}}"
+						}
+					]
+				},
+				"description": "Obtiene los pagos de una fecha"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "554c0eb7-481d-4f2c-b697-6f0b9897b17b",
+				"type": "text/javascript",
+				"exec": [
+					"pm.environment.set(\"CommerceOrder\", Math.round(Math.random() * 1000000));",
+					"var toSign = getToSign();",
+					"console.log(toSign);",
+					"var hash = CryptoJS.HmacSHA256(toSign, pm.variables.get(\"secretKey\"));",
+					"pm.environment.set(\"Signature\", hash.toString());",
+					"",
+					"",
+					"function getToSign() {",
+					"    var textToSign = \"\";",
+					"    var data;",
+					"    var params = new Map()",
+					"    if(request.method === \"POST\") {",
+					"        data = request.data;",
+					"    } else if(request.method === \"GET\") {",
+					"        data = getUrlVars(request.url);",
+					"    }",
+					"    for(var name in data) {",
+					"        if(name === \"s\" ) {",
+					"            continue;",
+					"        }",
+					"        var value = data[name];",
+					"        if (value.startsWith('{{')) {",
+					"            value = pm.variables.get(clearEnvironment(value)); ",
+					"        }",
+					"        params.set(name, value);",
+					"    }",
+					"    var sortedKeys = Array.from(params.keys()).sort();",
+					"    for (var param of sortedKeys) {",
+					"        console.log(param);",
+					"        textToSign += param + params.get(param);",
+					"    }",
+					"    return textToSign;",
+					"}",
+					"",
+					"function getUrlVars(url) {",
+					"    var vars = {};",
+					"    var parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi,    ",
+					"    function(m,key,value) {",
+					"      vars[key] = value;",
+					"    });",
+					"    return vars;",
+					"  }",
+					"",
+					"function clearEnvironment(key) {",
+					"    return key.replace('{{','').replace('}}','')",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "12ad9fe4-47d0-4213-a640-616007668672",
+				"type": "text/javascript",
+				"exec": [
+					"//Check response code",
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});"
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

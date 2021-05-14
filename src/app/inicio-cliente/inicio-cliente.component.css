@@ -1,0 +1,29 @@
+.wrapper {
+    height: -moz-calc(100% - 296px); 
+    height: -webkit-calc(100% - 296px); 
+    height: calc(100% - 296px); 
+  }
+  .label-menu{
+      font-size: 0.8rem;
+  }
+  .label-menu-normal{
+      font-size: 1rem;;
+  }
+  @media (max-height: 844px) {
+    .wrapper {
+      height: auto;
+    }
+    .row {
+        display: -webkit-box;
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 0;
+        margin-left: 0; 
+    }
+  }
+  .activo{
+      color: #ffb700;
+  }
+  .inactivo{
+      color: black;
+  }

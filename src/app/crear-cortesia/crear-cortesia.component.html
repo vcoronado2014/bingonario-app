@@ -1,0 +1,118 @@
+<app-header-app></app-header-app>
+<section class="container wrapper">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                  Creando Cortesía
+                </div>
+                <div class="card-body">
+                  <!-- <h5 class="card-title">Special title treatment</h5> -->
+                  <form novalidate [formGroup]="formaSorteo">
+                    <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label for="fotoSorteo">&nbsp;</label>
+                            <img name="fotoSorteo" [src]="fotoSorteo" height="38" style="margin-top: 25px;" />
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="nroSorteo">Nro. Sorteo</label>
+                            <input formControlName="nuevoNroSorteo" id="nroSorteo" name="nroSorteo" type="number" placeholder="0" class="form-control">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="producto">Producto</label>
+                            <input formControlName="nuevoProducto" id="producto" name="producto" type="text" placeholder="Producto" class="form-control">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="precio">Precio</label>
+                            <input formControlName="nuevoPrecio" id="precio" name="precio" type="number" placeholder="0" class="form-control">
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label for="cantidad">Cantidad</label>
+                            <!-- <input formControlName="nuevoCantidad" id="cantidad" name="cantidad" type="number" placeholder="0" class="form-control"> -->
+                            <select class="form-control" id="cantidad" formControlName="nuevoCantidad" (change)="onChangeCantidad($event)">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                              </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="subtotal">Subtotal</label>
+                            <input formControlName="nuevoSubtotal" id="subtotal" name="subtotal" type="number" placeholder="0" class="form-control">
+                        </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+        </div>
+    </div>
+    <div class="row pt-2">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                  Comprar para <button mat-button color="warn" (click)="usarMisDatos()" style="float: right;">Usar mis datos</button>
+                </div>
+                <div class="card-body">
+                  <form novalidate [formGroup]="formaComprador">
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <label for="nombres">Nombre Completo</label>
+                            <input formControlName="nuevoNombreCompleto" id="nombres" name="nombres" type="text" placeholder="Nombres" class="form-control"
+                              [ngClass]="{ 'is-invalid': submitted && f.nuevoNombreCompleto.errors }" aria-describedby="errorNombre">
+                              <small *ngIf="submitted && f.nuevoNombreCompleto.errors" id="errorNombre" class="form-text text-muted-red invalid-feedback">
+                                <div *ngIf="f.nuevoNombreCompleto.errors && f.nuevoNombreCompleto.errors.required">Nombre Requerido</div>
+                                <div *ngIf="f.nuevoNombreCompleto.errors && f.nuevoNombreCompleto.errors.minlength">Debe contener mínimo 3 caracteres</div>
+                                <div *ngIf="f.nuevoNombreCompleto.errors && f.nuevoNombreCompleto.errors.maxlength">Debe contener máximo 80 caracteres</div>
+                            </small>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="telefono">Teléfono</label>
+                            <input formControlName="nuevoTelefono" id="telefono" name="telefono" type="text" class="form-control"
+                                placeholder="Teléfono" [ngClass]="{ 'is-invalid': submitted && f.nuevoTelefono.errors }" aria-describedby="errorTelefono">
+                                <small *ngIf="submitted && f.nuevoTelefono.errors" id="errorTelefono" class="form-text text-muted-red invalid-feedback">
+                                  <div *ngIf="f.nuevoTelefono.errors && f.nuevoTelefono.errors.required">Teléfono Requerido</div>
+                                  <div *ngIf="f.nuevoTelefono.errors && f.nuevoTelefono.errors.pattern">Formato inválido</div>
+                              </small>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email">Email</label>
+                            <input formControlName="nuevoEmail" id="email" name="email" type="email" placeholder="Email" class="form-control" 
+                              [ngClass]="{ 'is-invalid': submitted && f.nuevoEmail.errors }" aria-describedby="errorEmail">
+                              <small *ngIf="submitted && f.nuevoEmail.errors" id="errorEmail" class="form-text text-muted-red invalid-feedback">
+                                <div *ngIf="f.nuevoEmail.errors && f.nuevoEmail.errors.required">Email Requerido</div>
+                                <div *ngIf="f.nuevoEmail.errors && f.nuevoEmail.errors.pattern">Formato inválido</div>
+                            </small>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="repitaEmail">Repita Email</label>
+                            <input formControlName="nuevoRepitaEmail" id="repitaEmail" name="repitaEmail" type="email" placeholder="Repita Email" class="form-control" 
+                              [ngClass]="{ 'is-invalid': submitted && f.nuevoRepitaEmail.errors }" aria-describedby="errorRepitaEmail">
+                              <small *ngIf="submitted && f.nuevoRepitaEmail.errors" id="errorRepitaEmail" class="form-text text-muted-red invalid-feedback">
+                                <div *ngIf="f.nuevoRepitaEmail.errors && f.nuevoRepitaEmail.errors.required">Email Requerido</div>
+                                <div *ngIf="f.nuevoRepitaEmail.errors && f.nuevoRepitaEmail.errors.pattern">Formato inválido</div>
+                                <div *ngIf="f.nuevoRepitaClave.errors && f.nuevoRepitaClave.errors.emailIguales == false">Las claves deben ser iguales</div>
+                            </small>
+                        </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+        </div>
+    </div>
+    <div class="form-row mt-3">
+        <div class="form-group col">
+            <input (click)="cancelar()" class="btn btn-info btn-lg" value="Cancelar">
+          </div>
+        <div class="form-group col text-right">
+          <!-- <input type="submit" (click)="onSubmit()" class="btn btn-secondary btn-lg" value="Comprar" [disabled]="loading"> -->
+          <button type="submit" class="btn btn-secondary btn-lg"  (click)="onSubmit()" [disabled]="loading">Comprar</button>
+        </div>
+
+      </div>
+</section>

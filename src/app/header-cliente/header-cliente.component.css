@@ -1,0 +1,7 @@
+.dark{
+    background-color: var(--dark);
+}
+.logo{
+    width: auto;
+    height: 60px;
+}

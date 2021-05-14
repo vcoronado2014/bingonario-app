@@ -1,0 +1,39 @@
+<app-header></app-header>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+
+<section class="container wrapper">
+  <div class="row">
+    <div class="col-sm-5 d-none d-md-block d-lg-block">
+      lateral
+    </div>
+    <div class="col-sm-7">
+      <h5>¡Recupera tu clave!</h5>
+      <div class="alert alert-success" role="alert">
+        Ingresa tu correo electrónico y luego presiona el botón aceptar, debes ingresar el correo electrónico que utilizaste en tu registro.
+      </div>
+      <!-- form  -->
+      <form action="javascript:void(0);" method="get" [formGroup]="forma" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="email">Correo electrónico</label>
+                <input formControlName="nuevoEmail" id="email" name="email" type="email" placeholder="Email" class="form-control" 
+                  [ngClass]="{ 'is-invalid': submitted && f.nuevoEmail.errors }" aria-describedby="errorEmail">
+                  <small *ngIf="submitted && f.nuevoEmail.errors" id="errorEmail" class="form-text text-muted-red invalid-feedback">
+                    <div *ngIf="f.nuevoEmail.errors && f.nuevoEmail.errors.required">Email Requerido</div>
+                    <div *ngIf="f.nuevoEmail.errors && f.nuevoEmail.errors.pattern">Formato inválido</div>
+                </small>
+            </div>
+        </div>
+        <div class="form-row mt-3">
+          <div class="form-group col">
+            <input type="submit" class="btn btn-secondary btn-lg" value="Aceptar" [disabled]="loading">
+          </div>
+
+        </div>
+      </form>
+    </div>
+  
+  </div>
+</section>
+<app-footter></app-footter>

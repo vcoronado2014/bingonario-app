@@ -1,0 +1,106 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~bootstrap/dist/css/bootstrap.css";
+
+.mat-icon-button {
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
+    color: #78C2AD;
+  }
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+/*   .wrapper {
+    height: -moz-calc(100% - 296px); 
+    height: -webkit-calc(100% - 296px); 
+    height: calc(100% - 296px); 
+  } */
+/*   @media (max-height: 844px) {
+    .wrapper {
+      height: auto;
+    }
+  } */
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.dark{
+  background-color: var(--dark);
+  color: white;
+}
+/* estilos para datepicker */
+/* .mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0 !important;
+}
+.mat-form-field-infix {
+  border-top: .6em solid transparent;
+}
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: .7em;
+} */
+.mat-form-field-appearance-legacy .mat-form-field-label {
+  color: white;
+  padding-left: 10px;
+}
+.mat-form-field.mat-focused .mat-form-field-label{
+  color: white;
+  padding-left: 10px;
+}
+.form-control-ff {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  -webkit-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+/* archivos */
+.afu-upload-btn {
+  display: none;
+}
+.afu-reset-btn {
+  float: right;
+}
+.afu-select-btn {
+  width: 100%;
+}
+.hand{
+  cursor: pointer;
+}
+.light{
+  background-color: var(--light);
+  color: black;
+}
+.header-list{
+  color: whitesmoke;
+  border-bottom-color: rgba(255,255,255,.12);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  padding-bottom: 10px;
+}
+.item-row{
+  padding-top: 10px;
+}
+.opciones-sorteo{
+  background-color: teal;
+  padding-top: 0.8em;
+}
+.subtitulo-sorteos{
+    font-size: 1em;
+    line-height: 1.5em;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 20px;
+    color: #333;
+}

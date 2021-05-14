@@ -1,0 +1,8 @@
+.text-muted-red{
+    color:red !important;
+}
+.wrapper {
+    height: -moz-calc(100% - 296px); 
+    height: -webkit-calc(100% - 296px); 
+    height: calc(100% - 296px); 
+  }

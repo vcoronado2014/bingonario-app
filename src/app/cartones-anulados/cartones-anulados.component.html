@@ -1,0 +1,198 @@
+<app-header-app></app-header-app>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+  <div class="container">
+      <div class="row pt-3" [hidden]="isMobile">
+        <div class="col-md-8">
+          <h1>Cartones Anulados</h1>
+          <p class="subtitulo-sorteos">En esta sección podrás ver los cartones anulados para revisar acciones.</p>
+        </div>
+      </div>
+      <!-- INFOGRAFIA -->
+      <div class="card mt-2 dark">
+        <div class="card-body row">
+          <div class="col-4 col-sm-2">
+            <a mat-icon-button aria-label="cortesia" color="accent">
+              <mat-icon>how_to_reg</mat-icon>
+            </a>
+            <label>Es cortesía</label>
+          </div>
+<!--           <div class="col-4 col-sm-2">
+            <a mat-icon-button aria-label="edit">
+              <mat-icon>send</mat-icon>
+            </a>
+            <label>Reenviar</label>
+          </div> -->
+           
+          <div class="col-4 col-sm-2">
+            <a mat-icon-button aria-label="delete" color="warn">
+              <mat-icon>delete</mat-icon>
+            </a>
+            <label>Anular</label>
+          </div>
+
+          <div class="col-4 col-sm-3">
+            <a mat-icon-button aria-label="info">
+              <mat-icon>info</mat-icon>
+            </a>
+            <label>Información reembolso</label>
+          </div>
+
+<!--           <div class="col-4 col-sm-2">
+            <a mat-icon-button aria-label="cancel" color="warn">
+              <mat-icon>cancel</mat-icon>
+            </a>
+            <label>Reembolsar</label>
+          </div> -->
+        </div>
+      </div>
+
+        <!-- GRILLA -->
+        <div class="grid grid-table pt-2" style="padding: 20px;" [hidden]="isMobile">
+          <div class="mat-elevation-z8">
+            <mat-form-field class="dark">
+              <input style="padding-left: 10px;" matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar en la lista">
+            </mat-form-field>
+            <table mat-table [dataSource]="dataSource">
+        
+              <!-- Position Column -->
+              <ng-container matColumnDef="NumeroSorteo">
+                <th mat-header-cell *matHeaderCellDef> No. Sorteo </th>
+                <td mat-cell *matCellDef="let element"> {{element.NumeroSorteo}} </td>
+              </ng-container>
+
+              <!-- Weight Column -->
+              <ng-container matColumnDef="NombreCompleto">
+                <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                <td mat-cell *matCellDef="let element"> {{ element.NombreCompleto }} </td>
+              </ng-container>
+              
+              <!-- Weight Column -->
+              <ng-container matColumnDef="Email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{ element.Email }} </td>
+              </ng-container>
+
+              <!-- Weight Column -->
+              <ng-container matColumnDef="Telefono">
+                <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+                <td mat-cell *matCellDef="let element"> {{ element.Telefono }} </td>
+              </ng-container>
+        
+              <ng-container matColumnDef="Informacion">
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let element">
+                  <button [hidden]="element.PideReembolso == 0" mat-flat-button color="accent" (click)="reembolsarCarton(element.Reembolso)">Reembolsar</button>
+                  <button mat-icon-button aria-label="info" data-toggle="modal" data-target="#exampleModalCenter1" (click)="infoReembolso(element.Reembolso)" [hidden]="element.PideReembolso == 0">
+                    <mat-icon>info</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="cortesia" color="accent" [hidden]="element.EsCortesia == 0">
+                    <mat-icon>how_to_reg</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="delete" color="warn" [hidden]="element.EsCortesia == 0" (click)="anularCarton(element.IdSorteoMaestro)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+
+                </td>
+              </ng-container>
+        
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+        <div [hidden]="!isMobile" class="pt-3">
+          <mat-list>
+            <h3 mat-subheader>Cartones</h3>
+            <mat-divider></mat-divider>
+            <mat-list-item *ngFor="let sorteo of sorteosUsuario">
+              <mat-icon mat-list-icon>calendar_today</mat-icon>
+              <h4 mat-line>Nro: {{sorteo.NumeroSorteo}}</h4>
+              <p mat-line>Nombre: {{ sorteo.NombreCompleto }} </p>
+              <p mat-line>Email: {{ sorteo.Email }} </p>
+              <p mat-line>Teléfono: {{sorteo.Telefono }} </p>
+              <p mat-line class="text-right">
+                <button mat-button color="accent" [hidden]="sorteo.PideReembolso == 0" (click)="reembolsarCarton(sorteo.Reembolso)">Reembolsar</button>
+                <button mat-icon-button aria-label="info" data-toggle="modal" data-target="#exampleModalCenter1" (click)="infoReembolso(sorteo.Reembolso)" [hidden]="sorteo.PideReembolso == 0">
+                  <mat-icon>info</mat-icon>
+                </button>
+                <button mat-icon-button aria-label="cortesia" color="accent" [hidden]="sorteo.EsCortesia == 0">
+                  <mat-icon>how_to_reg</mat-icon>
+                </button>
+                <button mat-icon-button aria-label="delete" color="warn" [hidden]="sorteo.EsCortesia == 0" (click)="anularCarton(sorteo.IdSorteoMaestro)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </p>
+              <mat-divider></mat-divider>
+            </mat-list-item>
+            
+          </mat-list>
+        </div>
+  </div>
+    <!-- Modal ver -->
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLongTitle">Información de reembolso</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5>Datos de compra</h5>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label for="nombres">Id Compra</label>
+            <label class="form-control">{{reembolsoSeleccionado.SmaId}}</label>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="codigo">Email</label>
+            <label class="form-control">{{reembolsoSeleccionado.EmailCompra}}</label>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="codigo">Teléfono</label>
+            <label class="form-control">{{reembolsoSeleccionado.TelefonoCompra}}</label>
+          </div>
+
+        </div>
+        <h5>Datos bancarios</h5>
+        <div class="form-row">
+          <div class="form-group col-md-9">
+            <label for="codigo">Nombre Completo</label>
+            <label class="form-control">{{reembolsoSeleccionado.NombreCompleto}}</label>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="nombres">Run/DNI</label>
+            <label class="form-control">{{ reembolsoSeleccionado.NumeroIdentificacion }}</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="nombres">Email</label>
+            <label class="form-control">{{reembolsoSeleccionado.EmailBanco}}</label>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="codigo">Banco</label>
+            <label class="form-control">{{reembolsoSeleccionado.NombreBanco}}</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="codigo">Tipo cuenta</label>
+            <label class="form-control">{{reembolsoSeleccionado.TipoCuenta}}</label>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="codigo">Número TipoCuenta</label>
+            <label class="form-control">{{reembolsoSeleccionado.NumeroCuenta}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>

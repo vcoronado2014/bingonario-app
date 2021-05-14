@@ -1,0 +1,113 @@
+<app-header></app-header>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<div class="wrapper">
+  <section [hidden]="isStatic">
+    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleCaptions" *ngFor="let item of listaSorteos;let index = index"
+          [attr.data-slide-to]="index"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item" *ngFor="let item of listaSorteos;let index = index;let isFirst = first"
+          [ngClass]="{active:isFirst}">
+          <img [src]="item.Banner" class="d-block w-100 img-carrusel" [alt]="item.Titulo">
+          <div class="carousel-caption d-none d-md-block">
+<!--             <h5 [textContent]="item.Titulo"></h5>
+            <p [textContent]="item.Subtitulo"></p> -->
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Anterior</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Siguiente</span>
+      </a>
+    </div>
+
+  </section>
+  <div class="container">
+    <!-- FILTRADO DE LA INFORMACION -->
+    <div class="input-group pt-2" [hidden]="isStatic">
+      <input type="text" class="form-control form-control-lg" placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon4" [(ngModel)]="term">
+      <div class="input-group-append" id="button-addon4">
+        <button class="btn btn-warning" type="button" (click)="buscar()">Busca tu sorteo</button>
+        <button class="btn btn-outline-secondary" type="button" (click)="limpiar()">Limpiar</button>
+      </div>
+    </div>
+    <!-- nueva lista de eventos -->
+    <div class="row pt-2">
+      <div class="card col-sm-4 pr-0 pl-0 ml-0 mr-1 mx-auto" *ngFor="let sorteo of collection.data | paginate: config">
+        <img [src]="sorteo.Icono" class="card-img-top" alt="icono">
+        <div class="card-body">
+          <h5 class="card-title">{{sorteo.Titulo}}</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i class="fas fa-calendar fa-lg">
+              </i>&nbsp;{{ sorteo.FechaHoraSorteo | verificadorFecha | capitalizar }}, a las
+              {{ sorteo.FechaHoraSorteo | transformaHora }}</li>
+            <li class="list-group-item"><i class="fas fa-ticket-alt fa-lg">
+              </i>&nbsp;{{ sorteo.ValorSorteo | currency : 'CLP' :'symbol-narrow':'3.0' | currencyFormat }}</li>
+            <!-- STREAMING -->
+            <li class="list-group-item hand">
+              <div *ngIf="sorteo.UrlEvento != ''" (click)="openPdf(sorteo.UrlEvento)">
+                <i class="fas fa-link fa-lg">
+                </i>&nbsp;Streaming
+              </div>
+              <div *ngIf="sorteo.UrlEvento == ''">
+                <i class="fas fa-unlink fa-lg">
+                </i>&nbsp;No hay streaming
+              </div>
+
+            </li>
+            <li class="list-group-item p-0 border-0">
+              <button type="button" class="btn btn-warning btn-lg btn-block" [disabled]="sorteo.EstadoSorteo != 1" [hidden]="esAdmin"
+                (click)="comprarSorteo(sorteo)">
+                <i class="fas fa-ticket-alt fa-md"></i>&nbsp;Comprar
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pt-2" style="float: right;">
+      <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)" previousLabel="Anterior"
+        nextLabel="Siguiente"></pagination-controls>
+    </div>
+
+  </div>
+  <div class="container mt-5 mb-3">
+    <h4>Testimonios de Ganadores</h4>
+    <div class="row text-center">
+      <div class="col-12 col-sm-4">
+        <div class="card mx-auto" style="width: 18rem;">
+          <img src="../../assets/images/persona_1.jpg" class="card-img-top" height="100" alt="persona_1">
+          <div class="card-body">
+            <p class="card-text">Testimonio 1.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-4">
+        <div class="card mx-auto" style="width: 18rem;">
+          <img src="../../assets/images/persona_2.jpg" class="card-img-top" height="100" alt="persona_2">
+          <div class="card-body">
+            <p class="card-text">Testimonio 2.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-4">
+        <div class="card mx-auto" style="width: 18rem;">
+          <img src="../../assets/images/persona_3.jpg" class="card-img-top" height="100" alt="persona_3">
+          <div class="card-body">
+            <p class="card-text">Testimonio 3.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<app-footter></app-footter>

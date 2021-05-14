@@ -1,0 +1,239 @@
+.container-app{
+    margin-top: 70px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.header-tabla{
+    background: #ffb700 !important;
+}
+table {
+  width: 100%;
+}
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+.mat-list-base {
+  padding-top: 8px;
+  display: block;
+  -webkit-tap-highlight-color: transparent;
+  background: #424242;
+}
+.p-minimo{
+  font-size: 0.7rem;
+}
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 1.25em;
+  background: #424242;
+}
+/* botones */
+.mat-button, .mat-flat-button, .mat-icon-button, .mat-stroked-button {
+  box-sizing: border-box;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: 0;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  text-align: center;
+  margin: 0;
+  min-width: 50px;
+  line-height: 26px;
+  padding: 0 5px;
+  border-radius: 4px;
+  overflow: visible;
+}
+/* card info*/
+.card-body {
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding-bottom: 0.8rem;
+}
+/*estilos para la nueva tabla */
+.dark{
+  background-color: #424242;
+  color: white;
+}
+
+/* paginator */
+.my-pagination /deep/ .ngx-pagination .current {
+  background: var(--dark);
+}
+/* ancho de las columnas */
+.mat-column-NombreCompleto {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 25% !important;
+  width: 25% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+ 
+  hyphens: auto;
+}
+.mat-column-VacioUno {
+  flex: 0 0 25% !important;
+  width: 25% !important;
+}
+.mat-column-Email {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 20% !important;
+  width: 20% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+ 
+  hyphens: auto;
+}
+.mat-column-VacioTres {
+  flex: 0 0 20% !important;
+  width: 20% !important;
+}
+.mat-column-Telefono {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+ 
+  hyphens: auto;
+}
+.mat-column-Total {
+  flex: 0 0 10% !important;
+  width: 10% !important;
+}
+.mat-column-FechaHoraSorteo {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 15% !important;
+  width: 15% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+ 
+  hyphens: auto;
+}
+.mat-column-VacioDos {
+  flex: 0 0 15% !important;
+  width: 15% !important;
+  font-size: 1.5em;
+}
+.mat-column-Valor {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+ 
+  hyphens: auto;
+  text-align: right;
+}
+.mat-column-totalAmount {
+  flex: 0 0 10% !important;
+  width: 10% !important;
+  font-size: 1.5em;
+}
+.mat-column-Tipo {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 15% !important;
+  width: 15% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+ 
+  hyphens: auto;
+}
+.mat-column-VacioSeis {
+  flex: 0 0 15% !important;
+  width: 15% !important;
+}
+.mat-column-Opciones {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 5% !important;
+  width: 5% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+ 
+  hyphens: auto;
+}
+.header-align-right {
+  text-align: right;
+  justify-content: flex-end;
+}
+.header-align-center {
+  text-align: center;
+  justify-content: center;
+}
+/* modal */
+.modal-dialog {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-content {
+  height: auto;
+  min-height: 100%;
+  border-radius: 0;
+}
+.grafic-parent{
+  display: grid;
+}
+@media (min-width: 576px){
+  .modal-dialog {
+      max-width: 100%;
+      margin: 0;
+  }
+}

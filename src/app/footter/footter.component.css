@@ -1,0 +1,24 @@
+.dark{
+    background-color: var(--dark);
+}
+.logo{
+    width: auto;
+    height: 60px;
+}
+.footer {
+    background: var(--dark);
+    color:white;
+    width: 100%;
+    height: 213px;
+    max-height: 213px;
+  }
+  .footer-device {
+    background: var(--dark);
+    color:white;
+    width: 100%;
+    height: 213px;
+    max-height: 213px;
+  }
+  .bottom-text{
+    margin-bottom: 0.5rem;
+  }

@@ -1,0 +1,37 @@
+<app-header-cliente></app-header-cliente>
+
+  <section class="container"  
+  [ngClass]="{'wrapper': datosPersonalesSeleccionado == true || cambiarClaveSeleccionado == true, 
+              '': eticketsSeleccionado == true && datosPersonalesSeleccionado == false && cambiarClaveSeleccionado == false}"
+  >
+  <h4>¡Bienvenido {{usuario.NombreCompleto}}!</h4>
+  <div class="row col-12 col-md-6">
+      <!-- etickets -->
+      <div class="col-3 text-center hand" (click)="seleccionaModulo('etickets')" [ngClass]="{'activo': eticketsSeleccionado, 'inactivo': !eticketsSeleccionado}">
+        <i [ngClass]="{'fa-2x': isMobile, 'fa-3x': !isMobile}" class="fas fa-ticket-alt"></i>
+        <br><span [ngClass]="{'label-menu': isMobile, 'label-menu-normal': !isMobile}">Mis eTickets</span>
+      </div>
+      <div class="col-3 text-center hand"  (click)="seleccionaModulo('editarregistro')" [ngClass]="{'activo': datosPersonalesSeleccionado, 'inactivo': !datosPersonalesSeleccionado}">
+        <i [ngClass]="{'fa-2x': isMobile, 'fa-3x': !isMobile}" class="fas fa-user-edit"></i>
+        <br><span [ngClass]="{'label-menu': isMobile, 'label-menu-normal': !isMobile}">Datos Personales</span>
+      </div>
+      <div class="col-3 text-center hand" (click)="seleccionaModulo('cambiarclave')" [ngClass]="{'activo': cambiarClaveSeleccionado, 'inactivo': !cambiarClaveSeleccionado}">
+        <i [ngClass]="{'fa-2x': isMobile, 'fa-3x': !isMobile}" class="fas fa-key"></i>
+        <br><span [ngClass]="{'label-menu': isMobile, 'label-menu-normal': !isMobile}">Cambiar Clave</span>
+      </div>
+      <div class="col-3 text-center hand" (click)="salir()">
+        <i [ngClass]="{'fa-2x': isMobile, 'fa-3x': !isMobile}" class="fas fa-sign-out-alt"></i>
+        <br><span [ngClass]="{'label-menu': isMobile, 'label-menu-normal': !isMobile}">Cerrar Sesión</span>
+      </div>
+  </div>
+  <div class="row container" [ngSwitch]="modulo">
+    <app-editar-registro *ngSwitchCase="'editarregistro'" style="width: 100%;"></app-editar-registro>
+    <app-etickets *ngSwitchCase="'etickets'" style="width: 100%;"></app-etickets>
+    <app-cambiar-clave *ngSwitchCase="'cambiarclave'" style="width: 100%;"></app-cambiar-clave>
+    <app-editar-registro *ngSwitchDefault style="width: 100%;"></app-editar-registro>
+
+  </div>
+  </section>
+
+
+  <app-footter></app-footter>

@@ -1,0 +1,193 @@
+<app-header-app></app-header-app>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+
+<section class="container wrapper">
+  <div class="row">
+    <div class="col-sm-12">
+      <h5>{{titulo}}</h5>
+      <!-- form  -->
+      <form action="javascript:void(0);" method="get" [formGroup]="forma" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="nombres">Número</label>
+                <input formControlName="nuevoNumero" id="numero" name="numero" type="number" placeholder="0" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.nuevoNumero.errors }" aria-describedby="errorNumero"
+                  (focusout)="keyDowEnterNumero($event)">
+                  <small *ngIf="submitted && f.nuevoNumero.errors" id="errorNumero" class="form-text text-muted-red invalid-feedback">
+                    <div *ngIf="f.nuevoNumero.errors && f.nuevoNumero.errors.required">Número Requerido</div>
+                </small>
+            </div>
+            <div class="form-group col-md-8">
+                <label for="codigo">Código</label>
+                <input formControlName="nuevoCodigo" id="codigo" name="codigo" type="text" placeholder="Código" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.nuevoCodigo.errors }" aria-describedby="errorCodigo">
+                  <small *ngIf="submitted && f.nuevoCodigo.errors" id="errorCodigo" class="form-text text-muted-red invalid-feedback">
+                    <div *ngIf="f.nuevoCodigo.errors && f.nuevoCodigo.errors.required">Código Requerido</div>
+                </small>
+            </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-5">
+            <label for="fechaInicio">Fecha inicio</label>
+            <input formControlName="nuevoFechaInicio" name="fechaInicio" id="fechaInicio" placeholder="Fecha inicio"
+              class="form-control" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && f.nuevoFechaInicio.errors }"
+              aria-describedby="errorFechaInicio" [minDate]="minInicioDate" [maxDate]="maxInicioDate" bsDatepicker
+              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+            <small *ngIf="submitted && f.nuevoFechaInicio.errors" id="errorFechaInicio"
+              class="form-text text-muted-red invalid-feedback">
+              <div *ngIf="f.nuevoFechaInicio.errors && f.nuevoFechaInicio.errors.required">Fecha inicio Requerida</div>
+            </small>
+          </div>
+          <div class="form-group col-md-5">
+            <label for="fechaSorteo">Fecha sorteo</label>
+            <input formControlName="nuevoFechaSorteo" name="fechaSorteo" #fechaSorteo="bsDatepicker" placeholder="Fecha sorteo"
+              class="form-control" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && f.nuevoFechaSorteo.errors }"
+              aria-describedby="errorFechaSorteo" [minDate]="minSorteoDate" [maxDate]="maxSorteoDate" bsDatepicker
+              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+            <small *ngIf="submitted && f.nuevoFechaSorteo.errors" id="errorFechaSorteo"
+              class="form-text text-muted-red invalid-feedback">
+              <div *ngIf="f.nuevoFechaSorteo.errors && f.nuevoFechaSorteo.errors.required">Fecha Sorteo Requerido</div>
+              <div *ngIf="f.nuevoFechaSorteo.errors && f.nuevoFechaSorteo.errors.fechaInvalida == false">Fecha sorteo no puede ser menor al inicio</div>
+            </small>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="hora">Hora</label>
+            <input formControlName="nuevoHoraSorteo" id="hora" placeholder="Hora" aria-label="Hora" [ngxTimepicker]="fullTime"
+              [format]="24" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nuevoHoraSorteo.errors }"
+              aria-describedby="errorHoraSorteo" readonly>
+            <small *ngIf="submitted && f.nuevoHoraSorteo.errors" id="errorHoraSorteo"
+              class="form-text text-muted-red invalid-feedback">
+              <div *ngIf="f.nuevoHoraSorteo.errors && f.nuevoHoraSorteo.errors.required">Hora Requerida</div>
+            </small>
+            <ngx-material-timepicker #fullTime [cancelBtnTmpl]="cancelBtn" [confirmBtnTmpl]="confirmBtn">
+            </ngx-material-timepicker>
+            <!-- template para botones -->
+            <ng-template #cancelBtn>
+              <button class="btn btn-secondary" style="margin-right: 10px;">Cancelar</button>
+            </ng-template>
+            <ng-template #confirmBtn>
+              <button class="btn btn-primary">Aceptar</button>
+            </ng-template>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="titulo">Titulo</label>
+            <input formControlName="nuevoTitulo" id="titulo" name="titulo" type="text" placeholder="Titulo" class="form-control">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="subtitulo">Sub Titulo</label>
+            <input formControlName="nuevoSubTitulo" id="subtitulo" name="subtitulo" type="text" placeholder="Subtitulo" class="form-control">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="urlEvento">Url Evento</label>
+            <input formControlName="nuevoUrlEvento" id="urlEvento" name="urlEvento" type="text" placeholder="Url Evento" class="form-control">
+          </div>
+        </div>
+        <!-- archivos solo si esta editando y hay -->
+        <div class="form-row" [hidden] = "esNuevo">
+          <!-- si esta editando hay que mostrar si tiene o no imagenes -->
+          <div class="form-group col-md-6" [hidden]="urlBanner === ''">
+            <img [src]="urlBanner" class="d-block w-100" alt="banner">
+          </div>
+          <div class="form-group col-md-6" [hidden]="urlIcono === ''">
+            <img [src]="urlIcono" class="d-block w-100" alt="icono">
+          </div>
+        </div>
+        <!--Archivos -->
+        <div class="form-row">
+          <!-- Archivo banner -->
+          <div class="form-group col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Archivo banner</h5>
+                <div class="alert alert-success" role="alert">
+                  Las dimensiones para el banner son 1580px * 380px.
+                </div>
+                <angular-file-uploader [config]="afuConfig" #fileUpload1>
+                </angular-file-uploader>
+              </div>
+            </div>
+          </div>
+          <!-- Archivo icono -->
+          <div class="form-group col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Archivo icono</h5>
+                <div class="alert alert-success" role="alert">
+                  Las dimensiones para el icono son 800px * 800px.
+                </div>
+                <angular-file-uploader [config]="afuConfig" #fileUpload2>
+                </angular-file-uploader>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Creacion de cartones ACA QUEDE HAY QUE RELLENAR EL FORMULARIO NO PERMITIR AGREGAR MAS DE LOS YA SELECCIONADOS -->
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Cartones</h5>
+                <div class="alert alert-success" role="alert">
+                  Ingresa el folio de inicio y de término de los cartones para que estos sean creados de forma automática al guardar el Sorteo.
+                  Inicio debe ser mayor o igual a 1 y término no puede superar los 10.000
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-5">
+                    <label for="numeroInicio">Inicio</label>
+                    <input formControlName="nuevoNumeroInicio" id="numeroInicio" name="numeroInicio" type="number" placeholder="0"
+                      class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nuevoNumeroInicio.errors }"
+                      aria-describedby="errorNumeroInicio">
+                    <small *ngIf="submitted && f.nuevoNumeroInicio.errors" id="errorNumeroInicio"
+                      class="form-text text-muted-red invalid-feedback">
+                      <div *ngIf="f.nuevoNumeroInicio.errors && f.nuevoNumeroInicio.errors.required">Número inicio Requerido</div>
+                      <div *ngIf="f.nuevoNumeroInicio.errors && f.nuevoNumeroInicio.errors.min">Debe ser mínimo 1</div>
+                      <div *ngIf="f.nuevoNumeroInicio.errors && f.nuevoNumeroInicio.errors.max">No debe ser mayor a 10.000</div>
+                    </small>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label for="numeroTermino">Término</label>
+                    <input formControlName="nuevoNumeroTermino" id="numeroTermino" name="nuevoTermino" type="number" placeholder="0"
+                      class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nuevoNumeroTermino.errors }"
+                      aria-describedby="errorNumeroTermino">
+                    <small *ngIf="submitted && f.nuevoNumeroTermino.errors" id="errorNumeroTermino"
+                      class="form-text text-muted-red invalid-feedback">
+                      <div *ngIf="f.nuevoNumeroTermino.errors && f.nuevoNumeroTermino.errors.required">Número término Requerido</div>
+                      <div *ngIf="f.nuevoNumeroTermino.errors && f.nuevoNumeroTermino.errors.min">Debe ser mínimo 1</div>
+                      <div *ngIf="f.nuevoNumeroTermino.errors && f.nuevoNumeroTermino.errors.max">No debe ser mayor a 10.000</div>
+                    </small>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="numeroValor">Precio</label>
+                    <input formControlName="numeroValorSorteo" id="numeroValor" name="nuevoValor" type="number" placeholder="0" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.numeroValorSorteo.errors }" aria-describedby="errorNumeroValor">
+                      <small *ngIf="submitted && f.numeroValorSorteo.errors" id="errorNumeroValor" class="form-text text-muted-red invalid-feedback">
+                        <div *ngIf="f.numeroValorSorteo.errors && f.numeroValorSorteo.errors.required">Precio Requerido</div>
+                        <div *ngIf="f.numeroValorSorteo.errors && f.numeroValorSorteo.errors.min">Debe ser mínimo 1</div>
+                        <div *ngIf="f.numeroValorSorteo.errors && f.numeroValorSorteo.errors.max">No debe ser mayor a 10.000</div>
+                    </small>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row mt-3">
+          <div class="form-group col">
+            <button type="button" class="btn btn-outline-dark btn-lg" (click)="irSorteos()">Volver</button>
+          </div>
+          <div class="form-group col text-right">
+            <input type="submit" class="btn btn-secondary btn-lg" value="Guardar" [disabled]="loading">
+          </div>
+
+        </div>
+      </form>
+    </div>
+  
+  </div>
+
+
+</section>

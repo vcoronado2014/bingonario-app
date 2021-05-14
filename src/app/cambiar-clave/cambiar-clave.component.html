@@ -1,0 +1,60 @@
+<div class="row">
+      
+    <legend>¡Cambia tu clave!</legend>
+    <!-- form  -->
+    <form action="javascript:void(0);" method="get" [formGroup]="forma" (ngSubmit)="onSubmit()" style="width: 100%;">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="claveActual">Ingresa tu clave actual</label>
+                <input formControlName="nuevoClaveActual" id="claveActual" name="claveActual" type="password"
+                  class="form-control" placeholder="Clave actual" aria-describedby="passwordHelpBlock5"
+                  [ngClass]="{ 'is-invalid': submitted && f.nuevoClaveActual.errors }">
+                <small *ngIf="submitted && f.nuevoRepitaClave.errors" id="passwordHelpBlock5"
+                  class="form-text text-muted-red invalid-feedback">
+                  <div *ngIf="f.nuevoClaveActual.errors && f.nuevoClaveActual.errors.required">Clave Requerida</div>
+                </small>
+              </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="password">Clave</label>
+              <input formControlName="nuevoClave" id="password" name="password" type="password" placeholder="Clave"
+                class="form-control" aria-describedby="passwordHelpBlock"
+                [ngClass]="{ 'is-invalid': submitted && f.nuevoClave.errors }">
+              <small *ngIf="submitted && f.nuevoClave.errors" id="passwordHelpBlock"
+                class="form-text text-muted-red invalid-feedback">
+                <div *ngIf="f.nuevoClave.errors && f.nuevoClave.errors.required">Clave Requerida</div>
+                <div *ngIf="f.nuevoClave.errors && f.nuevoClave.errors.pattern">Formato inválido</div>
+              </small>
+              <small id="passwordHelpBlock" class="form-text text-muted">
+                Tu clave debe tener entre 4 y 8 caracteres, debe incluir al menos una letra mayúscula, una letra minúscula y un
+                dígito
+                numérico
+              </small>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="repitaPassword">Repita Clave</label>
+              <input formControlName="nuevoRepitaClave" id="repitaPassword" name="repitaPassword" type="password"
+                class="form-control" placeholder="Repita clave" aria-describedby="passwordHelpBlock1"
+                [ngClass]="{ 'is-invalid': submitted && f.nuevoRepitaClave.errors }">
+              <small *ngIf="submitted && f.nuevoRepitaClave.errors" id="passwordHelpBlock1"
+                class="form-text text-muted-red invalid-feedback">
+                <div *ngIf="f.nuevoRepitaClave.errors && f.nuevoRepitaClave.errors.required">Clave Requerida</div>
+                <div *ngIf="f.nuevoRepitaClave.errors && f.nuevoRepitaClave.errors.pattern">Formato inválido</div>
+                <div *ngIf="f.nuevoRepitaClave.errors && f.nuevoRepitaClave.errors.passIguales == false">Las claves deben ser iguales</div>
+              </small>
+              <small id="passwordHelpBlock1" class="form-text text-muted">
+                ¡Asegúrate que sea la misma!.
+              </small>
+            </div>
+        </div>
+      <div class="form-row mt-3">
+        <div class="form-group col">
+          <input type="submit" class="btn btn-secondary btn-lg" value="Guardar" [disabled]="loading">
+        </div>
+
+      </div>
+    </form>
+  
+
+</div>

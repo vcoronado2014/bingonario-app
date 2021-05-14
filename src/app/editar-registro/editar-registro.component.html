@@ -1,0 +1,47 @@
+    <div class="row">
+      
+        <legend>¡Edita tus datos!</legend>
+        <!-- form  -->
+        <form action="javascript:void(0);" method="get" [formGroup]="forma" (ngSubmit)="onSubmit()" style="width: 100%;">
+          <div class="form-row">
+              <div class="form-group col-md-12">
+                  <label for="nombres">Nombre Completo</label>
+                  <input formControlName="nuevoNombreCompleto" id="nombres" name="nombres" type="text" placeholder="Nombres" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.nuevoNombreCompleto.errors }" aria-describedby="errorNombre">
+                    <small *ngIf="submitted && f.nuevoNombreCompleto.errors" id="errorNombre" class="form-text text-muted-red invalid-feedback">
+                      <div *ngIf="f.nuevoNombreCompleto.errors && f.nuevoNombreCompleto.errors.required">Nombre Requerido</div>
+                      <div *ngIf="f.nuevoNombreCompleto.errors && f.nuevoNombreCompleto.errors.minlength">Debe contener mínimo 3 caracteres</div>
+                      <div *ngIf="f.nuevoNombreCompleto.errors && f.nuevoNombreCompleto.errors.maxlength">Debe contener máximo 80 caracteres</div>
+                  </small>
+              </div>
+          </div>
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                  <label for="email">Email</label>
+                  <input formControlName="nuevoEmail" id="email" name="email" type="email" placeholder="Email" class="form-control" 
+                    [ngClass]="{ 'is-invalid': submitted && f.nuevoEmail.errors }" aria-describedby="errorEmail" (focusout)="verificaCorreo($event)">
+                    <small *ngIf="submitted && f.nuevoEmail.errors" id="errorEmail" class="form-text text-muted-red invalid-feedback">
+                      <div *ngIf="f.nuevoEmail.errors && f.nuevoEmail.errors.required">Email Requerido</div>
+                      <div *ngIf="f.nuevoEmail.errors && f.nuevoEmail.errors.pattern">Formato inválido</div>
+                  </small>
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="telefono">Teléfono</label>
+                  <input formControlName="nuevoTelefono" id="telefono" name="telefono" type="text" class="form-control"
+                      placeholder="Teléfono" [ngClass]="{ 'is-invalid': submitted && f.nuevoTelefono.errors }" aria-describedby="errorTelefono">
+                      <small *ngIf="submitted && f.nuevoTelefono.errors" id="errorTelefono" class="form-text text-muted-red invalid-feedback">
+                        <div *ngIf="f.nuevoTelefono.errors && f.nuevoTelefono.errors.required">Teléfono Requerido</div>
+                        <div *ngIf="f.nuevoTelefono.errors && f.nuevoTelefono.errors.pattern">Formato inválido</div>
+                    </small>
+              </div>
+          </div>
+          <div class="form-row mt-3">
+            <div class="form-group col">
+              <input type="submit" class="btn btn-secondary btn-lg" value="Guardar" [disabled]="loading">
+            </div>
+  
+          </div>
+        </form>
+      
+    
+    </div>

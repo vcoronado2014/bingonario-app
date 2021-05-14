@@ -1,0 +1,95 @@
+<app-header></app-header>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+
+<section class="container wrapper">
+  <div class="row">
+    <div class="col-sm-5 d-none d-md-block d-lg-block">
+      lateral
+    </div>
+    <div class="col-sm-7">
+      <h5>¡Vamos regístrate hoy en Bingonario.net!</h5>
+      <!-- form  -->
+      <form action="javascript:void(0);" method="get" [formGroup]="forma" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="nombres">Nombre Completo</label>
+                <input formControlName="nuevoNombreCompleto" id="nombres" name="nombres" type="text" placeholder="Nombres" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.nuevoNombres.errors }" aria-describedby="errorNombre">
+                  <small *ngIf="submitted && f.nuevoNombres.errors" id="errorNombre" class="form-text text-muted-red invalid-feedback">
+                    <div *ngIf="f.nuevoNombres.errors && f.nuevoNombres.errors.required">Nombre Requerido</div>
+                    <div *ngIf="f.nuevoNombres.errors && f.nuevoNombres.errors.minlength">Debe contener mínimo 3 caracteres</div>
+                    <div *ngIf="f.nuevoNombres.errors && f.nuevoNombres.errors.maxlength">Debe contener máximo 80 caracteres</div>
+                </small>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="email">Email</label>
+                <input formControlName="nuevoEmail" id="email" name="email" type="email" placeholder="Email" class="form-control" 
+                  [ngClass]="{ 'is-invalid': submitted && f.nuevoEmail.errors }" aria-describedby="errorEmail" (focusout)="verificaCorreo($event)">
+                  <small *ngIf="submitted && f.nuevoEmail.errors" id="errorEmail" class="form-text text-muted-red invalid-feedback">
+                    <div *ngIf="f.nuevoEmail.errors && f.nuevoEmail.errors.required">Email Requerido</div>
+                    <div *ngIf="f.nuevoEmail.errors && f.nuevoEmail.errors.pattern">Formato inválido</div>
+                </small>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="telefono">Teléfono</label>
+                <input formControlName="nuevoTelefono" id="telefono" name="telefono" type="text" class="form-control"
+                    placeholder="Teléfono" [ngClass]="{ 'is-invalid': submitted && f.nuevoTelefono.errors }" aria-describedby="errorTelefono">
+                    <small *ngIf="submitted && f.nuevoTelefono.errors" id="errorTelefono" class="form-text text-muted-red invalid-feedback">
+                      <div *ngIf="f.nuevoTelefono.errors && f.nuevoTelefono.errors.required">Teléfono Requerido</div>
+                      <div *ngIf="f.nuevoTelefono.errors && f.nuevoTelefono.errors.pattern">Formato inválido</div>
+                  </small>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="password">Clave</label>
+              <input formControlName="nuevoClave" id="password" name="password" type="password" placeholder="Clave"
+                class="form-control" aria-describedby="passwordHelpBlock"
+                [ngClass]="{ 'is-invalid': submitted && f.nuevoClave.errors }">
+              <small *ngIf="submitted && f.nuevoClave.errors" id="passwordHelpBlock"
+                class="form-text text-muted-red invalid-feedback">
+                <div *ngIf="f.nuevoClave.errors && f.nuevoClave.errors.required">Clave Requerida</div>
+                <div *ngIf="f.nuevoClave.errors && f.nuevoClave.errors.pattern">Formato inválido</div>
+              </small>
+              <small id="passwordHelpBlock" class="form-text text-muted">
+                Tu clave debe tener entre 4 y 8 caracteres, debe incluir al menos una letra mayúscula, una letra minúscula y un
+                dígito
+                numérico
+              </small>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="repitaPassword">Repita Clave</label>
+              <input formControlName="nuevoRepitaClave" id="repitaPassword" name="repitaPassword" type="password"
+                class="form-control" placeholder="Repita clave" aria-describedby="passwordHelpBlock1"
+                [ngClass]="{ 'is-invalid': submitted && f.nuevoRepitaClave.errors }">
+              <small *ngIf="submitted && f.nuevoRepitaClave.errors" id="passwordHelpBlock1"
+                class="form-text text-muted-red invalid-feedback">
+                <div *ngIf="f.nuevoRepitaClave.errors && f.nuevoRepitaClave.errors.required">Clave Requerida</div>
+                <div *ngIf="f.nuevoRepitaClave.errors && f.nuevoRepitaClave.errors.pattern">Formato inválido</div>
+                <div *ngIf="f.nuevoRepitaClave.errors && f.nuevoRepitaClave.errors.passIguales == false">Las claves deben ser iguales</div>
+              </small>
+              <small id="passwordHelpBlock1" class="form-text text-muted">
+                ¡Asegúrate que sea la misma!.
+              </small>
+            </div>
+        </div>
+        <div class="form-row">
+            <re-captcha (resolved)="resolved($event)" siteKey="{{keyRecaptcha}}"></re-captcha>
+        </div>
+        <div class="form-row mt-3">
+          <div class="form-group col">
+            <input type="submit" class="btn btn-secondary btn-lg" value="Registrate" [disabled]="loading || resolvedCaptcha == false">
+          </div>
+
+        </div>
+      </form>
+    </div>
+  
+  </div>
+
+
+</section>
+<app-footter></app-footter>

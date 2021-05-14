@@ -1,0 +1,147 @@
+<app-header-cliente></app-header-cliente>
+<section class="container wrapper">
+    <div class="row">
+      <div class="col-sm-4 d-none d-md-block d-lg-block">
+        lateral
+      </div>
+      <div class="col-sm-8">
+        <h1>Solicitud de Reembolso</h1>
+        <!-- form  -->
+        <form action="javascript:void(0);" method="get" [formGroup]="forma" (ngSubmit)="onSubmit()">
+            <!-- datos de la compra -->
+            <h4>Datos de Compra</h4>
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="email">Id Compra</label>
+                    <input formControlName="nuevoIdCompra" id="idCompra" name="idCompra" type="text" class="form-control">
+                </div>
+                <div class="form-group col-md-5">
+                    <label for="email">Email</label>
+                    <input formControlName="nuevoEmail" id="email" name="email" type="email" placeholder="Email"
+                        class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nuevoEmail.errors }"
+                        aria-describedby="errorEmail">
+                    <small *ngIf="submitted && f.nuevoEmail.errors" id="errorEmail"
+                        class="form-text text-muted-red invalid-feedback">
+                        <div *ngIf="f.nuevoEmail.errors && f.nuevoEmail.errors.required">Email Requerido</div>
+                        <div *ngIf="f.nuevoEmail.errors && f.nuevoEmail.errors.pattern">Formato inválido</div>
+                    </small>
+                </div>
+                <div class="form-group col-md-5">
+                    <label for="telefono">Teléfono</label>
+                    <input formControlName="nuevoTelefono" id="telefono" name="telefono" type="text" class="form-control"
+                        placeholder="Teléfono" [ngClass]="{ 'is-invalid': submitted && f.nuevoTelefono.errors }"
+                        aria-describedby="errorTelefono">
+                    <small *ngIf="submitted && f.nuevoTelefono.errors" id="errorTelefono"
+                        class="form-text text-muted-red invalid-feedback">
+                        <div *ngIf="f.nuevoTelefono.errors && f.nuevoTelefono.errors.required">Teléfono Requerido</div>
+                        <div *ngIf="f.nuevoTelefono.errors && f.nuevoTelefono.errors.pattern">Formato inválido</div>
+                    </small>
+                </div>
+            </div>
+            <!-- datos bancarios -->
+            <h4>Datos bancarios</h4>
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label for="nombres">Nombre Completo</label>
+                    <input formControlName="nuevoNombreCompleto" id="nombres" name="nombres" type="text" placeholder="Nombres"
+                        class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nuevoNombreCompleto.errors }"
+                        aria-describedby="errorNombre">
+                    <small *ngIf="submitted && f.nuevoNombreCompleto.errors" id="errorNombre"
+                        class="form-text text-muted-red invalid-feedback">
+                        <div *ngIf="f.nuevoNombreCompleto.errors && f.nuevoNombreCompleto.errors.required">Nombre Requerido</div>
+                        <div *ngIf="f.nuevoNombreCompleto.errors && f.nuevoNombreCompleto.errors.minlength">Debe contener mínimo 3 caracteres
+                        </div>
+                        <div *ngIf="f.nuevoNombreCompleto.errors && f.nuevoNombreCompleto.errors.maxlength">Debe contener máximo 80 caracteres
+                        </div>
+                    </small>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="rut">Run/DNI</label>
+                    <input formControlName="nuevoRut" id="rut" name="rut" type="text" class="form-control"
+                        placeholder="Run/DNI" [ngClass]="{ 'is-invalid': submitted && f.nuevoRut.errors }"
+                        aria-describedby="errorRut">
+                    <small *ngIf="submitted && f.nuevoRut.errors" id="errorRut"
+                        class="form-text text-muted-red invalid-feedback">
+                        <div *ngIf="f.nuevoRut.errors && f.nuevoRut.errors.required">Run/DNI Requerido</div>
+                    </small>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="emailBanco">Email</label>
+                    <input formControlName="nuevoEmailBanco" id="emailBanco" name="emailBanco" type="email" placeholder="Email"
+                        class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nuevoEmailBanco.errors }"
+                        aria-describedby="errorEmailBanco">
+                    <small *ngIf="submitted && f.nuevoEmailBanco.errors" id="errorEmailBanco"
+                        class="form-text text-muted-red invalid-feedback">
+                        <div *ngIf="f.nuevoEmailBanco.errors && f.nuevoEmailBanco.errors.required">Email Requerido</div>
+                        <div *ngIf="f.nuevoEmailBanco.errors && f.nuevoEmailBanco.errors.pattern">Formato inválido</div>
+                    </small>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="banco">Banco</label>
+                    <select class="form-control" id="banco" formControlName="nuevoBanco">
+                        <option value="" selected="selected">Selecciona...</option>
+                        <option value="Banco BICE">Banco BICE</option>
+                        <option value="Banco Bilbao Vizcaya Argentaria Chile">Banco Bilbao Vizcaya Argentaria Chile</option>
+                        <option value="Banco Btg Pactual Chile">Banco Btg Pactual Chile</option>
+                        <option value="Banco Consorcio">Banco Consorcio</option>
+                        <option value="Banco de Chile">Banco de Chile</option>
+                        <option value="Banco de Crédito e Inversiones">Banco de Crédito e Inversiones</option>
+                        <option value="Banco del Estado de Chile">Banco Estado</option>
+                        <option value="Banco do Brasil S.A.">Banco do Brasil S.A.</option>
+                        <option value="Banco Falabella">Banco Falabella</option>
+                        <option value="Banco Internacional">Banco Internacional</option>
+                        <option value="Banco Itau Chile">Banco Penta</option>
+                        <option value="Banco Ripley">Banco Ripley</option>
+                        <option value="Banco Santander-Chile">Banco Santander-Chile</option>
+                        <option value="Banco Security">Banco Security</option>
+                        <option value="Corpbanca">Corpbanca</option>
+                        <option value="Deutsche Bank Chile">Deutsche Bank Chile</option>
+                        <option value="HSBC Bank Chile">HSBC Bank Chile</option>
+                        <option value="JP Morgan Chase Bank">JP Morgan Chase Bank</option>
+                        <option value="Rabobank Chile">Rabobank Chile</option>
+                        <option value="Scotiabank Chile">Scotiabank Chile</option>
+                        <option value="Banco Itau">Banco Itau</option>
+                        <option value="Banco de Chile">CrediChile</option>
+                      </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="tipoCuenta">Tipo cuenta</label>
+                    <select class="form-control" id="tipoCuenta" formControlName="nuevoTipoCuenta">
+                        <option value="" selected="selected">Selecciona...</option>
+                        <option value="Corriente" selected="selected">Corriente</option>
+                        <option value="Vista">Vista</option>
+                        <option value="Rut">Rut</option>
+                      </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="numeroCuenta">Número cuenta</label>
+                    <input formControlName="nuevoNumeroCuenta" id="numeroCuenta" name="numeroCuenta" type="text" placeholder="Número cuenta"
+                        class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nuevoNumeroCuenta.errors }"
+                        aria-describedby="erroNumeroCuenta">
+                    <small *ngIf="submitted && f.nuevoNumeroCuenta.errors" id="erroNumeroCuenta"
+                        class="form-text text-muted-red invalid-feedback">
+                        <div *ngIf="f.nuevoNumeroCuenta.errors && f.nuevoNumeroCuenta.errors.required">Número cuenta Requerido</div>
+                    </small>
+                </div>
+            </div>
+            <div class="form-row mt-3">
+                <div class="form-group col">
+                    <button type="button" class="btn btn-outline-dark btn-lg" (click)="volver()">Cancelar</button>
+                </div>
+                <div class="form-group col text-right">
+                    <input type="submit" class="btn btn-secondary btn-lg" value="Solicitar" [disabled]="loading">
+                </div>
+            </div>
+        </form>
+      </div>
+    
+    </div>
+  
+  
+  </section>
+
+<app-footter></app-footter>

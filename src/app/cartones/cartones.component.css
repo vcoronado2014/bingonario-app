@@ -1,0 +1,65 @@
+.container-app{
+    margin-top: 70px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.header-tabla{
+    background: #ffb700 !important;
+}
+table {
+  width: 100%;
+}
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+.mat-list-base {
+  padding-top: 8px;
+  display: block;
+  -webkit-tap-highlight-color: transparent;
+  background: #424242;
+}
+.p-minimo{
+  font-size: 0.7rem;
+}
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 1.25em;
+  background: #424242;
+}
+/* botones */
+.mat-button, .mat-flat-button, .mat-icon-button, .mat-stroked-button {
+  box-sizing: border-box;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: 0;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  text-align: center;
+  margin: 0;
+  min-width: 50px;
+  line-height: 26px;
+  padding: 0 5px;
+  border-radius: 4px;
+  overflow: visible;
+}
+/* card info*/
+.card-body {
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding-bottom: 0.8rem;
+}
+.mat-form-field-appearance-legacy .mat-form-field-label {
+  color: white;
+}
+.infografia{
+  font-size: smaller;
+}

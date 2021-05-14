@@ -1,0 +1,236 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<div class="container">
+    <!-- VERSION PC 
+    <div class="pt-2" style="padding: 20px;" [hidden]="isMobile">
+      <div class="mat-elevation-z8">
+        <mat-form-field class="dark">
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+
+        <mat-table [dataSource]="dataSource">
+    
+          <ng-container matColumnDef="Afiche">
+            <mat-header-cell *matHeaderCellDef> Afiche </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <img [src]="element.Afiche" alt="afiche" height="30px">
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="NumeroSorteo">
+            <mat-header-cell *matHeaderCellDef> No. Sorteo </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.NumeroSorteo}} </mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="FechaHoraSorteo">
+            <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.FechaHoraSorteo | verificadorFecha | capitalizar }}
+            </mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="Hora">
+            <mat-header-cell *matHeaderCellDef> Hora </mat-header-cell>
+            <mat-cell *matCellDef="let element"><i class="fas fa-clock fa-sm">
+              </i>&nbsp;{{ element.FechaHoraSorteo | transformaHora }} </mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="NombreCompleto">
+            <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.NombreCompleto}} </mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="Valor">
+            <mat-header-cell *matHeaderCellDef> Valor </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.Valor  | currency : 'CLP' :'symbol-narrow':'3.0' | currencyFormat}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="Detalle">
+            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="text-align: right;">
+              <button mat-flat-button color="warn" [hidden]="element.EsAnulado == 0" (click)="pedirReembolso(element)" [disabled]="element.PideReembolso == 1">Pedir reembolso</button>&nbsp;
+              <button mat-flat-button color="accent" [hidden]="element.EsAnulado == 0" [disabled]="element.PideReembolso == 1" (click)="buscarSorteo(template, element)">Canjear</button>
+              <button mat-flat-button color="accent" [hidden]="element.EsAnulado == 1"  data-toggle="modal"  data-target="#exampleModalCenter1" (click)="verDetalle(element)">Detalle</button>&nbsp;
+              <button mat-flat-button color="primary" [hidden]="element.UrlPdf == '' || element.EsAnulado == 1" (click)="reenviarPdf(element)">Reenviar</button>
+              <button mat-icon-button aria-label="pdf" [hidden]="element.UrlPdf == '' || element.EsAnulado == 1" (click)="openPdf(element.UrlPdf)">
+                <mat-icon>picture_as_pdf</mat-icon>
+              </button>
+              <button mat-icon-button aria-label="link" [hidden]="element.UrlEvento == '' || element.EsAnulado == 1" (click)="openPdf(element.UrlEvento)">
+                <mat-icon>link</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>  
+    
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+-->
+    
+    <!-- FILTRADO DE LA INFORMACION -->
+    <div class="input-group pt-2">
+      <input type="text" class="form-control form-control-lg" placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon4" [(ngModel)]="term">
+      <div class="input-group-append" id="button-addon4">
+        <button class="btn btn-warning" type="button" (click)="buscar()">Busca tu sorteo</button>
+        <button class="btn btn-outline-secondary" type="button" (click)="limpiar()">Limpiar</button>
+      </div>
+    </div>
+
+    <!-- nueva lista de eventos -->
+    <div class="row pt-2">
+      <div class="card col-sm-4 pr-0 pl-0 ml-0 mr-1 mx-auto" *ngFor="let carton of collection.data | paginate: config">
+        <img [src]="carton.Icono" class="card-img-top" alt="icono">
+        <div class="card-body">
+          <h5 class="card-title">{{carton.Titulo}}</h5>
+          <ul class="list-group list-group-flush">
+            <!-- estado del carton -->
+            <li class="list-group-item text-right" [ngClass]="{'list-group-item-primary': carton.EstadoStr == 'Abierto', 'list-group-item-danger': carton.EstadoStr == 'Cerrado'}">
+              <i class="fas fa-lock-open fa-lg" *ngIf="carton.EstadoStr == 'Abierto'">
+              </i>&nbsp;
+              <i class="fas fa-lock fa-lg" *ngIf="carton.EstadoStr == 'Cerrado'">
+              </i>&nbsp;
+              {{ carton.EstadoStr }}
+            </li>
+
+            <li class="list-group-item"><i class="fas fa-calendar fa-lg">
+              </i>&nbsp;{{ carton.FechaHoraSorteo | verificadorFecha | capitalizar }}, a las
+              {{ carton.FechaHoraSorteo | transformaHora }}</li>
+            <li class="list-group-item"><i class="fas fa-ticket-alt fa-lg">
+              </i>&nbsp;{{ carton.Valor | currency : 'CLP' :'symbol-narrow':'3.0' | currencyFormat }}</li>
+            <!-- STREAMING -->
+            <li class="list-group-item hand border-bottom-0">
+              <div *ngIf="carton.UrlEvento != ''" (click)="openPdf(carton.UrlEvento)">
+                <i class="fas fa-link fa-lg">
+                </i>&nbsp;Streaming
+              </div>
+              <div *ngIf="carton.UrlEvento == ''">
+                <i class="fas fa-unlink fa-lg">
+                </i>&nbsp;No hay streaming
+              </div>
+
+            </li>
+            <!-- opciones de pedir reembolso y canjear-->
+            <li class="list-group-item p-0 pb-2 border-0">
+              <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width: 100%;" [hidden]="carton.EsAnulado == 0">
+                <label class="btn btn-warning">
+                  <input type="radio" name="options" id="option1" autocomplete="off" [hidden]="carton.EsAnulado == 0"
+                  (click)="pedirReembolso(carton)" [disabled]="carton.PideReembolso == 1"> Pedir Reembolso
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="option2" autocomplete="off"
+                  [hidden]="carton.EsAnulado == 0"
+                  [disabled]="carton.PideReembolso == 1" (click)="buscarSorteo(template, carton)"> Canjear
+                </label>
+              </div>
+            </li>
+            <!-- detalle, enviar, pdf -->
+            <li class="list-group-item p-0 border-0">
+              <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width: 100%;" [hidden]="carton.EsAnulado == 1">
+                <label class="btn btn-warning">
+                  <input type="radio" name="options" id="option1" autocomplete="off" [hidden]="carton.EsAnulado == 1"
+                    data-toggle="modal" data-target="#exampleModalCenter1" (click)="verDetalle(carton)"> Detalle
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="option2" autocomplete="off"
+                    [hidden]="carton.UrlPdf == '' || carton.EsAnulado == 1" (click)="reenviarPdf(carton)"> Reenviar
+                </label>
+                <label class="btn btn-info">
+                  <input type="radio" name="options" id="option3" autocomplete="off"
+                    [hidden]="carton.UrlPdf == '' || carton.EsAnulado == 1" (click)="openPdf(carton.UrlPdf)"> Descargar
+                </label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- paginador -->
+    <div class="row pt-2" style="float: right;">
+      <pagination-controls class="my-pagination" (pageChange)="pageChanged($event)" previousLabel="Anterior"
+        nextLabel="Siguiente"></pagination-controls>
+    </div>
+
+</div>
+  <!-- Modal ver -->
+  <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLongTitle">Detalle</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-md-2">
+              <label for="nombres"><strong>Número</strong></label>
+              <label class="form-control">{{detalleMostrando.NumeroSorteo}}</label>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="codigo"><strong>Fecha Sorteo</strong></label>
+              <label class="form-control">{{ detalleMostrando.FechaHoraSorteo | verificadorFecha | capitalizar }}</label>
+            </div>
+            <div class="form-group col-md-2">
+              <label for="nombres"><strong>Hora</strong></label>
+              <label class="form-control">{{ detalleMostrando.FechaHoraSorteo | transformaHora }}</label>
+            </div>
+            <div class="form-group col-md-2">
+              <label for="nombres"><strong>Valor</strong></label>
+              <label class="form-control">{{ detalleMostrando.Valor  | currency : 'CLP' :'symbol-narrow':'3.0' | currencyFormat }}</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="nombres"><strong>Nombre</strong></label><br>
+              <label name="nombres">{{detalleMostrando.NombreCompleto}}</label>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="email"><strong>Email</strong></label><br>
+              <label name="email">{{detalleMostrando.Email}}</label>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="telefono"><strong>Teléfono</strong></label><br>
+              <label name="telefono">{{detalleMostrando.Telefono}}</label>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- modal canjear -->
+  <ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Modal</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <div class="alert alert-primary" role="alert">
+           Estimado cliente, seleccione uno de los sorteos disponibles para canjear el sorteo cancelado, luego presione aceptar.
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <label for="tipoCuenta">Seleccione Sorteo</label>
+          <select  class="custom-select" class="form-control" id="inputSorteo" [(ngModel)]="sorteoSelected">
+            <option *ngFor="let v of sorteos;" [value]="v.Numero">{{v.Codigo}}&nbsp;{{ v.FechaHoraSorteo | verificadorFecha | capitalizar }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <button type="button" class="btn btn-secondary" (click)="canjear()">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
